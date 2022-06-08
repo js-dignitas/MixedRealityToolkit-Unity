@@ -217,6 +217,8 @@ namespace Microsoft.MixedReality.Toolkit.XRSDK.OpenXR
         {
             switch (supportedControllerType)
             {
+                case SupportedControllerType.ViveWand:
+                    return typeof(HTCViveController);
                 case SupportedControllerType.WindowsMixedReality:
                     return typeof(MicrosoftMotionController);
                 case SupportedControllerType.HPMotionController:
@@ -238,6 +240,7 @@ namespace Microsoft.MixedReality.Toolkit.XRSDK.OpenXR
                 case SupportedControllerType.WindowsMixedReality:
                 case SupportedControllerType.HPMotionController:
                 case SupportedControllerType.OculusTouch:
+                case SupportedControllerType.ViveWand:
                     return InputSourceType.Controller;
                 case SupportedControllerType.ArticulatedHand:
                     return InputSourceType.Hand;
@@ -259,7 +262,11 @@ namespace Microsoft.MixedReality.Toolkit.XRSDK.OpenXR
 #if UNITY_ANDROID
                 return SupportedControllerType.OculusTouch;
 #else
-                if (inputDevice.manufacturer == "HP")
+                if (inputDevice.manufacturer == "HTC")
+                {
+                    return SupportedControllerType.ViveWand;
+                }
+                else if (inputDevice.manufacturer == "HP")
                 {
                     return SupportedControllerType.HPMotionController;
                 }
